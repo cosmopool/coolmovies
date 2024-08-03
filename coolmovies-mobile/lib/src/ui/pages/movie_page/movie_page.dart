@@ -67,17 +67,6 @@ class _MoviePageState extends State<MoviePage> with Navigation {
       ),
     );
 
-    final body = CustomScrollView(
-      controller: _controller,
-      slivers: [
-        SliverList(
-          delegate: SliverChildListDelegate([
-            imageWidget,
-          ]),
-        ),
-      ],
-    );
-
     final value = Utils.normalize(
       scrollOffset,
       min: appBarHeight * 0.6,
@@ -101,7 +90,16 @@ class _MoviePageState extends State<MoviePage> with Navigation {
           backgroundColor: appBarColor,
           title: appBarTitle,
         ),
-        body: body,
+        body: CustomScrollView(
+          controller: _controller,
+          slivers: [
+            SliverList(
+              delegate: SliverChildListDelegate([
+                imageWidget,
+              ]),
+            ),
+          ],
+        ),
       ),
     );
   }
