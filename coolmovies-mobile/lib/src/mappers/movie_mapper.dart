@@ -4,7 +4,7 @@ import "../domain/movie.dart";
 
 abstract class MovieMapper {
   static const kId = "id";
-  static const kImageUrl = "imageUrl";
+  static const kImageUrl = "imgUrl";
   static const kMovieDirectorId = "movieDirectorId";
   static const kUserCreatorId = "userCreatorId";
   static const kTitle = "title";
@@ -18,7 +18,7 @@ abstract class MovieMapper {
       kMovieDirectorId: movie.movieDirectorId,
       kUserCreatorId: movie.userCreatorId,
       kTitle: movie.title,
-      kReleaseDate: movie.releaseDate.millisecondsSinceEpoch,
+      kReleaseDate: movie.releaseDate.toString(),
       kNodeId: movie.nodeId,
     };
   }
@@ -30,8 +30,7 @@ abstract class MovieMapper {
       movieDirectorId: map[kMovieDirectorId] as String,
       userCreatorId: map[kUserCreatorId] as String,
       title: map[kTitle] as String,
-      releaseDate:
-          DateTime.fromMillisecondsSinceEpoch(map[kReleaseDate] as int),
+      releaseDate: DateTime.parse(map[kReleaseDate] as String),
       nodeId: map[kNodeId] as String,
     );
   }
