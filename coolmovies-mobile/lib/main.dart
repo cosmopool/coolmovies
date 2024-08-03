@@ -1,25 +1,12 @@
 import "dart:io";
 
 import "package:flutter/material.dart";
-import "package:graphql_flutter/graphql_flutter.dart";
 
+import "src/core/di.dart";
 import "src/ui/pages/home_page/home_page.dart";
 
 void main() async {
-  final HttpLink httpLink = HttpLink(
-    Platform.isAndroid
-        ? "http://10.0.2.2:5001/graphql"
-        : "http://localhost:5001/graphql",
-  );
-
-  ValueNotifier<GraphQLClient> client = ValueNotifier(
-    GraphQLClient(
-      link: httpLink,
-      cache: GraphQLCache(store: InMemoryStore()),
-    ),
-  );
-
-  runApp(GraphQLProvider(client: client, child: const MyApp()));
+  setupDependencyInjection();
 }
 
 class MyApp extends StatelessWidget {
