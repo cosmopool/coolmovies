@@ -5,6 +5,7 @@ import "../../../bloc/movie_cubit.dart";
 import "../../../bloc/movie_state.dart";
 import "../../../core/di.dart";
 import "../../widgets/movie_card_widget.dart";
+import "../../../core/navigation.dart";
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -15,7 +16,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with Navigation {
   @override
   void initState() {
     super.initState();
