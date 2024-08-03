@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> with Navigation {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => getIt.get<MovieCubit>(),
+      create: (_) => movieCubit,
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
