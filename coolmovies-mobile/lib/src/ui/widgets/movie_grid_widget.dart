@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 import "../../core/navigation.dart";
 import "../../core/utils.dart";
 import "../../domain/movie.dart";
+import "../pages/movie_page/movie_page.dart";
 import "movie_card_widget.dart";
 
 class MovieGridWidget extends StatefulWidget {
@@ -35,7 +36,8 @@ class _MovieGridWidgetState extends State<MovieGridWidget> with Navigation {
             (_, index) {
               final movie = widget.movies[index];
               return MovieCardWidget(
-                onTap: () {},
+                onTap: (image) =>
+                    navigateTo(MoviePage(movie: movie, image: image)),
                 movie: movie,
               );
             },
