@@ -1,5 +1,3 @@
-import "dart:io";
-
 import "package:flutter/material.dart";
 
 import "src/core/di.dart";
@@ -7,6 +5,7 @@ import "src/ui/pages/home_page/home_page.dart";
 
 void main() async {
   setupDependencyInjection();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
