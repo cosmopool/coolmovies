@@ -10,21 +10,45 @@ class MovieCardWidget extends StatelessWidget {
   });
 
   final Movie movie;
-  final VoidCallback onTap;
+  final void Function(Image) onTap;
+
+  static const double _width = 130;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Image.network(
-        movie.imageUrl,
-        fit: BoxFit.fitHeight,
-        filterQuality: FilterQuality.high,
-        loadingBuilder: (_, image, loadingProgress) {
-          if (loadingProgress == null) return image;
-          return const Center(child: CircularProgressIndicator());
-        },
+    final image = Image.network(
+      movie.imageUrl,
+      fit: BoxFit.cover,
+      height: 200,
+      width: _width,
+      filterQuality: FilterQuality.high,
+      loadingBuilder: (_, image, loadingProgress) {
+        if (loadingProgress == null) return image;
+        return const Center(child: CircularProgressIndicator());
+      },
+    );
+    final imageWidget = ClipRRect(
+      borderRadius: BorderRadius.circular(8.0),
+      child: image,
+    );
+
+    final title = SizedBox(
+      height: 50,
+      width: _width,
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          movie.title,
+          overflow: TextOverflow.fade,
+        ),
       ),
+    );
+
+    return Column(
+      children: [
+        InkWell(onTap: () => onTap(image), child: imageWidget),
+        title,
+      ],
     );
   }
 }
