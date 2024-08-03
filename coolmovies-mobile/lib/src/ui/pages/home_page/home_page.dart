@@ -4,8 +4,8 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "../../../bloc/movie_cubit.dart";
 import "../../../bloc/movie_state.dart";
 import "../../../core/di.dart";
-import "../../widgets/movie_card_widget.dart";
 import "../../../core/navigation.dart";
+import "../../widgets/movie_grid_widget.dart";
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -17,10 +17,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with Navigation {
+  final MovieCubit movieCubit = getIt.get<MovieCubit>();
+
   @override
   void initState() {
     super.initState();
-    getIt.get<MovieCubit>().fetchAll();
+    movieCubit.fetchAll();
   }
 
   @override
@@ -41,7 +43,7 @@ class _HomePageState extends State<HomePage> with Navigation {
                 case MovieStatus.loading:
                   return const Center(child: CircularProgressIndicator());
                 case MovieStatus.loaded:
-                  return _movieList(state);
+                  return MovieGridWidget(movies: state.movies);
                 case MovieStatus.error:
                   return Center(child: Text(state.errorMessage!));
               }
@@ -49,24 +51,6 @@ class _HomePageState extends State<HomePage> with Navigation {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _movieList(MovieState state) {
-    return CustomScrollView(
-      slivers: [
-        SliverGrid(
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 200.0,
-            mainAxisSpacing: 10.0,
-            crossAxisSpacing: 10.0,
-          ),
-          delegate: SliverChildBuilderDelegate(
-            (_, index) => MovieCardWidget(movie: state.movies[index]),
-            childCount: state.movies.length,
-          ),
-        ),
-      ],
     );
   }
 }
