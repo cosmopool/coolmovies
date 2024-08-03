@@ -20,6 +20,7 @@ void setupDependencyInjection() {
   );
 
   getIt.registerSingleton(graphQLClient);
+  getIt.registerSingleton(MovieState(status: StateStatus.initial));
   getIt.registerLazySingleton(() => MoviesRepository(getIt()));
-  getIt.registerFactory<MovieCubit>(() => MovieCubit.init(getIt()));
+  getIt.registerFactory<MovieCubit>(() => MovieCubit(getIt(), getIt()));
 }
