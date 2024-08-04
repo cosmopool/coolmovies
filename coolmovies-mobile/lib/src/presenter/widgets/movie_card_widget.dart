@@ -18,19 +18,16 @@ class MovieCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final image = Hero(
-      tag: movie.id,
-      child: Image.network(
-        movie.imageUrl,
-        height: size.height,
-        width: size.width,
-        fit: BoxFit.fill,
-        filterQuality: FilterQuality.high,
-        loadingBuilder: (_, image, loadingProgress) {
-          if (loadingProgress == null) return image;
-          return const Center(child: CircularProgressIndicator());
-        },
-      ),
+    final image = Image.network(
+      movie.imageUrl,
+      height: size.height,
+      width: size.width,
+      fit: BoxFit.fill,
+      filterQuality: FilterQuality.high,
+      loadingBuilder: (_, image, loadingProgress) {
+        if (loadingProgress == null) return image;
+        return const Center(child: CircularProgressIndicator());
+      },
     );
     final imageWidget = ClipRRect(
       borderRadius: _borderRadius,

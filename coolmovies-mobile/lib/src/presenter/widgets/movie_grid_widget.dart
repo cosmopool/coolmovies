@@ -38,7 +38,7 @@ class _MovieGridWidgetState extends State<MovieGridWidget> with Navigation {
             (_, index) {
               final movie = widget.movies[index];
               return MovieCardWidget(
-                onTap: () => navigateTo(MovieInfoPage(movie: movie)),
+                onTap: () => pushPage(MovieInfoPage(movie: movie)),
                 movie: movie,
                 size: Size(size.width - axisSpacing, size.height),
               );
