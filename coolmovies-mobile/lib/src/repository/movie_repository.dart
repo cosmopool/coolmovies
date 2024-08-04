@@ -27,6 +27,9 @@ class MovieRepository {
                   name
                   nodeId
                 }
+                movieDirectorByMovieDirectorId {
+                  name
+                }
               }
             }
           }

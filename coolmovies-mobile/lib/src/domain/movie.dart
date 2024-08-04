@@ -9,6 +9,7 @@ class Movie extends Equatable {
     required this.title,
     required this.releaseDate,
     required this.nodeId,
+    required this.director,
   });
 
   final String id;
@@ -18,6 +19,7 @@ class Movie extends Equatable {
   final String title;
   final DateTime releaseDate;
   final String nodeId;
+  final String director;
 
   @override
   List<Object?> get props => [
@@ -28,6 +30,7 @@ class Movie extends Equatable {
         title,
         releaseDate,
         nodeId,
+        director,
       ];
 
   @override

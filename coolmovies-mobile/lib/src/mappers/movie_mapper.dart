@@ -2,6 +2,11 @@ import "dart:convert";
 
 import "../domain/movie.dart";
 
+abstract class DirectorKeys {
+  static const kName = "name";
+  static const kDirector = "movieDirectorByMovieDirectorId";
+}
+
 abstract class MovieMapper {
   static const kId = "id";
   static const kImageUrl = "imgUrl";
@@ -20,6 +25,7 @@ abstract class MovieMapper {
       kTitle: movie.title,
       kReleaseDate: movie.releaseDate.toString(),
       kNodeId: movie.nodeId,
+      DirectorKeys.kDirector: movie.director,
     };
   }
 
@@ -32,6 +38,8 @@ abstract class MovieMapper {
       title: map[kTitle] as String,
       releaseDate: DateTime.parse(map[kReleaseDate] as String),
       nodeId: map[kNodeId] as String,
+      director:
+          map[DirectorKeys.kDirector][DirectorKeys.kName] as String,
     );
   }
 

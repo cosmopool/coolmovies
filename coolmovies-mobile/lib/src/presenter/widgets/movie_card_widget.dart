@@ -39,7 +39,7 @@ class MovieCardWidget extends StatelessWidget {
 
     final title = Text(
       movie.title,
-      style: const TextStyle(fontWeight: FontWeight.w300),
+      style: TextStyle(fontWeight: FontWeight.w300, color: Colors.grey[300]),
       overflow: TextOverflow.ellipsis,
     );
 

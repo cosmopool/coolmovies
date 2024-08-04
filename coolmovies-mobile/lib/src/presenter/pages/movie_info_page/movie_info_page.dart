@@ -16,11 +16,9 @@ class MovieInfoPage extends StatefulWidget {
   const MovieInfoPage({
     super.key,
     required this.movie,
-    this.director,
   });
 
   final Movie movie;
-  final String? director;
 
   @override
   State<MovieInfoPage> createState() => _MovieInfoPageState();
@@ -84,20 +82,23 @@ class _MovieInfoPageState extends State<MovieInfoPage> with Navigation {
       color: colors.onSurfaceVariant,
     );
 
-    final director = Padding(
-      padding: padding,
-      child: Text("Director: ${widget.movie.title}", style: subTitleStyle),
+    final director = Text(
+      "Director: ${widget.movie.director}",
+      style: subTitleStyle,
     );
-
+    final dotSeparator = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 6),
+      child: Text("•", style: subTitleStyle),
+    );
     final releaseYear = Text(
       widget.movie.releaseDate.year.toString(),
       style: subTitleStyle,
     );
-    const space = SizedBox(width: 12);
     final info = Padding(
       padding: padding,
       child: Row(
-        children: [releaseYear, space],
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [releaseYear, dotSeparator, director],
       ),
     );
 
@@ -136,7 +137,6 @@ class _MovieInfoPageState extends State<MovieInfoPage> with Navigation {
                   delegate: SliverChildListDelegate([
                     const SizedBox(height: 32),
                     info,
-                    if (widget.director != null) director,
                     const SizedBox(height: 32),
                   ]),
                 ),
