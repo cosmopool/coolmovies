@@ -2,7 +2,7 @@ import "package:flutter_bloc/flutter_bloc.dart";
 
 import "../domain/movie.dart";
 import "../repository/movies_repository.dart";
-import "movie_state.dart";
+import "state_status.dart";
 
 class MovieCubit extends Cubit<MovieState> {
   MovieCubit(super.initialState, this._repo);
@@ -22,7 +22,27 @@ class MovieCubit extends Cubit<MovieState> {
     }
   }
 }
-      );
-    }
+
+class MovieState {
+  MovieState({
+    required this.status,
+    this.movies = const [],
+    this.errorMessage,
+  });
+
+  final StateStatus status;
+  final List<Movie> movies;
+  final String? errorMessage;
+
+  MovieState copyWith({
+    StateStatus? status,
+    List<Movie>? movies,
+    String? errorMessage,
+  }) {
+    return MovieState(
+      status: status ?? this.status,
+      movies: movies ?? this.movies,
+      errorMessage: errorMessage ?? this.errorMessage,
+    );
   }
 }

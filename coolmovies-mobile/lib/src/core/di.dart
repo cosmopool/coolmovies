@@ -4,7 +4,10 @@ import "package:get_it/get_it.dart";
 import "package:graphql_flutter/graphql_flutter.dart";
 
 import "../bloc/movie_cubit.dart";
+import "../bloc/review_cubit.dart";
+import "../bloc/state_status.dart";
 import "../repository/movies_repository.dart";
+import "../repository/review_repository.dart";
 
 final getIt = GetIt.instance;
 
@@ -20,7 +23,10 @@ void setupDependencyInjection() {
   );
 
   getIt.registerSingleton(graphQLClient);
-  getIt.registerSingleton(MovieState(status: StateStatus.initial));
   getIt.registerLazySingleton(() => MoviesRepository(getIt()));
+  getIt.registerLazySingleton(() => ReviewRepository(getIt()));
+  getIt.registerSingleton(MovieState(status: StateStatus.initial));
+  getIt.registerSingleton(ReviewState(status: StateStatus.initial));
   getIt.registerFactory<MovieCubit>(() => MovieCubit(getIt(), getIt()));
+  getIt.registerFactory<ReviewCubit>(() => ReviewCubit(getIt(), getIt()));
 }

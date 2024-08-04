@@ -1,8 +1,7 @@
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
-import "../../../bloc/movie_cubit.dart";
-import "../../../bloc/movie_state.dart";
+import "../../../bloc/review_cubit.dart";
 import "../../../core/di.dart";
 import "../../../core/navigation.dart";
 import "../../../core/utils.dart";
@@ -14,24 +13,28 @@ class MoviePage extends StatefulWidget {
   const MoviePage({
     super.key,
     required this.movie,
+    this.director,
   });
 
   final Movie movie;
+  final String? director;
 
   @override
   State<MoviePage> createState() => _MoviePageState();
 }
 
 class _MoviePageState extends State<MoviePage> with Navigation {
-  final movieCubit = getIt.get<MovieCubit>();
+  final reviewCubit = getIt.get<ReviewCubit>();
   late final _controller = ScrollController();
 
   double scrollOffset = 0;
 
+  static const padding = EdgeInsets.symmetric(horizontal: 24);
+
   @override
   void initState() {
     super.initState();
-    movieCubit.fetchAll();
+    reviewCubit.fetchAllByMovie(widget.movie);
     _controller.addListener(_updateOffset);
   }
 
@@ -50,11 +53,12 @@ class _MoviePageState extends State<MoviePage> with Navigation {
   Widget build(BuildContext context) {
     final size = Utils.safeSizeArea(context);
     final appBarHeight = size.height * .7;
+    final colors = Theme.of(context).colorScheme;
 
-    final imageWidget = ShaderMask(
+    final cover = ShaderMask(
       shaderCallback: (rect) {
         return const LinearGradient(
-          begin: Alignment(0, 0.3),
+          begin: Alignment(0, 0.4),
           end: Alignment(0, 1),
           colors: [Colors.black, Colors.transparent],
         ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
@@ -70,16 +74,35 @@ class _MoviePageState extends State<MoviePage> with Navigation {
         ),
       ),
     );
+
+    final subTitleStyle = TextStyle(
+      fontWeight: FontWeight.w300,
+      color: colors.onSurfaceVariant,
+    );
+
+    final director = Padding(
+      padding: padding,
+      child: Text("Director: ${widget.movie.title}", style: subTitleStyle),
+    );
+
+    final releaseYear = Text(
+      widget.movie.releaseDate.year.toString(),
+      style: subTitleStyle,
+    );
+    const space = SizedBox(width: 12);
+    final info = Padding(
+      padding: padding,
+      child: Row(
+        children: [releaseYear, space],
       ),
     );
 
-    final value = Utils.normalize(
-      scrollOffset,
-      min: appBarHeight * 0.6,
-      max: appBarHeight * 0.9,
-    );
     final appBarTitle = Opacity(
-      opacity: value,
+      opacity: Utils.normalize(
+        scrollOffset,
+        min: appBarHeight * 0.6,
+        max: appBarHeight * 0.9,
+      ),
       child: Text(widget.movie.title),
     );
 
@@ -107,9 +130,7 @@ class _MoviePageState extends State<MoviePage> with Navigation {
                 ),
                 SliverList(
                   delegate: SliverChildListDelegate([
-                    // cover,
-                    // const SizedBox(height: 64),
-                    // title,
+                    const SizedBox(height: 32),
                     info,
                     if (widget.director != null) director,
                     const SizedBox(height: 32),

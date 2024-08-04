@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
 import "../../../bloc/movie_cubit.dart";
-import "../../../bloc/movie_state.dart";
+import "../../../bloc/state_status.dart";
 import "../../../core/di.dart";
 import "../../../core/navigation.dart";
 import "../../widgets/movie_grid_widget.dart";
