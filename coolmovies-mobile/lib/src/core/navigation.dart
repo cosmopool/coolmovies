@@ -12,16 +12,15 @@ mixin Navigation {
   ///   MaterialPageRoute(builder: (context) => page),
   /// );
   /// ```
-  void navigateTo(Widget page, Offset begin, Offset end) {
+  void _navigateTo(
+    Widget page,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)
+        transitionsBuilder,
+  ) {
     final animatedDestination = PageRouteBuilder(
       pageBuilder: (_, __, ___) => page,
-      transitionsBuilder: (_, animation, __, child) {
-        final tween = Tween(begin: begin, end: end);
-        final offsetAnimation = animation.drive(tween);
-        return SlideTransition(
-          position: offsetAnimation,
-          child: child,
-        );
+      transitionsBuilder: (ctx, animation, animation2, child) {
+        return transitionsBuilder(ctx, animation, animation2, child);
       },
     );
     Navigator.of(context).push(animatedDestination);
@@ -30,15 +29,44 @@ mixin Navigation {
   void pushPage(Widget page, [NavAnimation? animation]) {
     switch (animation) {
       case NavAnimation.bottomToTop:
-        return navigateTo(page, const Offset(0.0, 1.0), Offset.zero);
+        return _navigateTo(
+          page,
+          (_, animation, __, child) {
+            final tween =
+                Tween(begin: const Offset(0.0, 1.0), end: Offset.zero);
+            final position = animation.drive(tween);
+            return SlideTransition(
+              position: position,
+              child: child,
+            );
+          },
+        );
 
       case NavAnimation.fadeIn:
-        Navigator.of(context).push(MaterialPageRoute(builder: (_) => page));
-        return;
+        return _navigateTo(
+          page,
+          (_, animation, __, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
 
       case NavAnimation.rightToLeft: // set rightToLeft as default
       default:
-        return navigateTo(page, const Offset(1.0, 0.0), Offset.zero);
+        return _navigateTo(
+          page,
+          (_, animation, __, child) {
+            final tween =
+                Tween(begin: const Offset(1.0, 0.0), end: Offset.zero);
+            final position = animation.drive(tween);
+            return SlideTransition(
+              position: position,
+              child: child,
+            );
+          },
+        );
     }
   }
 }
