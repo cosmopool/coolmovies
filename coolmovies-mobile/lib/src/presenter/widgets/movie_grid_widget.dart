@@ -25,7 +25,7 @@ class _MovieGridWidgetState extends State<MovieGridWidget> with Navigation {
     final size = Size(safeWidth, safeWidth * 1.5);
     const axisSpacing = 10.0;
 
-    return CustomScrollView(
+    final grid = CustomScrollView(
       slivers: [
         SliverGrid(
           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -47,6 +47,11 @@ class _MovieGridWidgetState extends State<MovieGridWidget> with Navigation {
           ),
         ),
       ],
+    );
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
+      child: grid,
     );
   }
 }
