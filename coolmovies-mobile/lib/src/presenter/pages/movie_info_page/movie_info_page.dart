@@ -108,7 +108,10 @@ class _MovieInfoPageState extends State<MovieInfoPage> with Navigation {
         min: appBarHeight * 0.6,
         max: appBarHeight * 0.9,
       ),
-      child: Text(widget.movie.title),
+      child: Text(
+        widget.movie.title,
+        style: TextStyle(color: colors.onSurface),
+      ),
     );
 
     return BlocProvider(
