@@ -17,13 +17,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Flutter Demo",
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        brightness: Brightness.light,
-      ),
-      darkTheme: ThemeData(
+        colorSchemeSeed: Colors.blue,
         brightness: Brightness.dark,
       ),
-      themeMode: ThemeMode.dark,
       builder: (context, child) {
         if (child == null) return const SizedBox.shrink();
 
