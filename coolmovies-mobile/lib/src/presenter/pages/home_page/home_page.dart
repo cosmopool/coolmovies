@@ -27,30 +27,28 @@ class _HomePageState extends State<HomePage> with Navigation {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => movieCubit,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: BlocBuilder<MovieCubit, MovieState>(
-            builder: (context, state) {
-              switch (state.status) {
-                case StateStatus.initial:
-                  // TODO: add shimmer on loading
-                  return const Center(child: CircularProgressIndicator());
-                case StateStatus.loading:
-                  // TODO: add shimmer on loading
-                  return const Center(child: CircularProgressIndicator());
-                case StateStatus.loaded:
-                  return MovieGridWidget(movies: state.movies);
-                case StateStatus.error:
-                  return Center(child: Text(state.error!.exception.toString()));
-              }
-            },
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: BlocBuilder<MovieCubit, MovieState>(
+          bloc: movieCubit,
+          builder: (context, state) {
+            switch (state.status) {
+              case StateStatus.initial:
+                // TODO: add shimmer on loading
+                return const Center(child: CircularProgressIndicator());
+              case StateStatus.loading:
+                // TODO: add shimmer on loading
+                return const Center(child: CircularProgressIndicator());
+              case StateStatus.loaded:
+                return MovieGridWidget(movies: state.movies);
+              case StateStatus.error:
+                return Center(child: Text(state.error!.exception.toString()));
+            }
+          },
         ),
       ),
     );

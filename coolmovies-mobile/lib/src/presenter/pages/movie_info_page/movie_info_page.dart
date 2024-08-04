@@ -120,49 +120,47 @@ class _MovieInfoPageState extends State<MovieInfoPage> with Navigation {
       ),
     );
 
-    return BlocProvider(
-      create: (_) => reviewCubit,
-      child: BlocBuilder<ReviewCubit, ReviewState>(
+    return BlocBuilder<ReviewCubit, ReviewState>(
       bloc: reviewCubit,
-        builder: (context, state) {
-          final reviews =
-              state.reviews.where((e) => e.movieId == widget.movie.id).toList();
+      builder: (context, state) {
+        final reviews =
+            state.reviews.where((e) => e.movieId == widget.movie.id).toList();
 
-          return Scaffold(
-            extendBodyBehindAppBar: true,
-            appBar: CustomAppBar(
-              title: appBarTitle,
-              backgroundColor: Color.lerp(null, colors.surface, value),
-            ),
-            body: CustomScrollView(
-              controller: _controller,
-              slivers: [
-                SliverList(
-                  delegate: SliverChildListDelegate([
-                    cover,
-                    const SizedBox(height: 32),
-                    info,
-                    const SizedBox(height: 32),
-                  ]),
+        return Scaffold(
+          extendBodyBehindAppBar: true,
+          appBar: CustomAppBar(
+            title: appBarTitle,
+            backgroundColor: Color.lerp(null, colors.surface, value),
+          ),
+          body: CustomScrollView(
+            controller: _controller,
+            slivers: [
+              SliverList(
+                delegate: SliverChildListDelegate([
+                  cover,
+                  const SizedBox(height: 32),
+                  info,
+                  const SizedBox(height: 32),
+                ]),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (_, index) {
+                    return _buildReviewCard(reviews[index]);
+                  },
+                  childCount: reviews.length,
                 ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (_, index) {
-                      return _buildReviewCard(reviews[index]);
-                    },
-                    childCount: reviews.length,
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
   Widget _buildReviewCard(Review review) {
-    final bloc = BlocBuilder<UserCubit, UserState>(
+    return BlocBuilder<UserCubit, UserState>(
+      bloc: _userCubit,
       builder: (_, state) {
         if (state.status == StateStatus.error) {
           return Center(child: Text(state.error!.exception.toString()));
@@ -172,11 +170,6 @@ class _MovieInfoPageState extends State<MovieInfoPage> with Navigation {
         if (user == null && _userCubit.isReadyToFetch) _userCubit.fetchAll();
         return ReviewWidget(review: review, user: user);
       },
-    );
-
-    return BlocProvider(
-      create: (_) => _userCubit,
-      child: bloc,
     );
   }
 }
