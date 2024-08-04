@@ -21,24 +21,26 @@ class MovieGridWidget extends StatefulWidget {
 class _MovieGridWidgetState extends State<MovieGridWidget> with Navigation {
   @override
   Widget build(BuildContext context) {
-    final itemSize = Utils.safeSizeArea(context);
+    final safeWidth = Utils.safeSizeArea(context).width;
+    final size = Size(safeWidth, safeWidth * 1.5);
+    const axisSpacing = 10.0;
 
     return CustomScrollView(
       slivers: [
         SliverGrid(
           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: 200.0,
-            mainAxisSpacing: 10.0,
-            crossAxisSpacing: 10.0,
-            childAspectRatio: itemSize.width / itemSize.height,
+            mainAxisSpacing: axisSpacing,
+            crossAxisSpacing: axisSpacing,
+            childAspectRatio: size.width / size.height,
           ),
           delegate: SliverChildBuilderDelegate(
             (_, index) {
               final movie = widget.movies[index];
               return MovieCardWidget(
-                onTap: () =>
-                    navigateTo(MoviePage(movie: movie)),
+                onTap: () => navigateTo(MoviePage(movie: movie)),
                 movie: movie,
+                size: Size(size.width - axisSpacing, size.height),
               );
             },
             childCount: widget.movies.length,

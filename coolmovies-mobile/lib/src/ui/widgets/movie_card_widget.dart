@@ -7,12 +7,14 @@ class MovieCardWidget extends StatelessWidget {
     super.key,
     required this.movie,
     required this.onTap,
+    required this.size,
   });
 
   final Movie movie;
   final VoidCallback onTap;
+  final Size size;
 
-  static const double _width = 130;
+  static const _borderRadius = BorderRadius.all(Radius.circular(8));
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +22,9 @@ class MovieCardWidget extends StatelessWidget {
       tag: movie.id,
       child: Image.network(
         movie.imageUrl,
-        fit: BoxFit.cover,
-        height: 200,
-        width: _width,
+        height: size.height,
+        width: size.width,
+        fit: BoxFit.fill,
         filterQuality: FilterQuality.high,
         loadingBuilder: (_, image, loadingProgress) {
           if (loadingProgress == null) return image;
@@ -31,26 +33,38 @@ class MovieCardWidget extends StatelessWidget {
       ),
     );
     final imageWidget = ClipRRect(
-      borderRadius: BorderRadius.circular(8.0),
+      borderRadius: _borderRadius,
       child: image,
     );
 
-    final title = SizedBox(
-      height: 50,
-      width: _width,
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          movie.title,
-          overflow: TextOverflow.fade,
-        ),
-      ),
+    final title = Text(
+      movie.title,
+      style: const TextStyle(fontWeight: FontWeight.w300),
+      overflow: TextOverflow.ellipsis,
     );
 
-    return Column(
+    final cover = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      height: 50,
+      width: size.width,
+      decoration: const BoxDecoration(
+        color: Colors.black,
+        borderRadius: _borderRadius,
+        gradient: LinearGradient(
+          begin: Alignment.center,
+          end: Alignment.topCenter,
+          colors: [Colors.black, Colors.transparent],
+        ),
+      ),
+      child: Align(alignment: Alignment.bottomLeft, child: title),
+      // child: title,
+    );
+
+    return Stack(
+      alignment: AlignmentDirectional.bottomStart,
       children: [
         InkWell(onTap: () => onTap(), child: imageWidget),
-        title,
+        cover,
       ],
     );
   }
