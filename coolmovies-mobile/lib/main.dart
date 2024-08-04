@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 
 import "src/core/di.dart";
-import "src/ui/pages/home_page/home_page.dart";
+import "src/presenter/pages/home_page/home_page.dart";
 
 void main() async {
   setupDependencyInjection();
