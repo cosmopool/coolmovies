@@ -22,6 +22,7 @@ class ReviewRepository {
                   body
                   rating
                   movieId
+                  userReviewerId
                 }
               }
           }

@@ -7,6 +7,7 @@ abstract class ReviewMapper {
   static const kBody = "body";
   static const kRating = "rating";
   static const kMovieId = "movieId";
+  static const kUserId = "userReviewerId";
 
   static Map<String, dynamic> toMap(Review review) {
     return <String, dynamic>{
@@ -14,6 +15,7 @@ abstract class ReviewMapper {
       kBody: review.body,
       kRating: review.rating,
       kMovieId: review.movieId,
+      kUserId: review.userId,
     };
   }
 
@@ -23,6 +25,7 @@ abstract class ReviewMapper {
       body: map[kBody] as String,
       rating: map[kRating] as int,
       movieId: map[kMovieId] as String,
+      userId: map[kUserId] as String,
     );
   }
 
