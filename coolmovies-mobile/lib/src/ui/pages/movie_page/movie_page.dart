@@ -78,34 +78,63 @@ class _MoviePageState extends State<MoviePage> with Navigation {
       min: appBarHeight * 0.6,
       max: appBarHeight * 0.9,
     );
-    final appBarColor = Color.lerp(
-      Colors.transparent,
-      AppBarTheme.of(context).backgroundColor,
-      value,
-    );
     final appBarTitle = Opacity(
       opacity: value,
       child: Text(widget.movie.title),
     );
 
     return BlocProvider(
-      create: (_) => movieCubit,
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          backgroundColor: appBarColor,
-          title: appBarTitle,
-        ),
-        body: CustomScrollView(
-          controller: _controller,
-          slivers: [
-            SliverList(
-              delegate: SliverChildListDelegate([
-                imageWidget,
-              ]),
+      create: (_) => reviewCubit,
+      child: BlocBuilder<ReviewCubit, ReviewState>(
+        builder: (context, state) {
+          final reviews =
+              state.reviews.where((e) => e.movieId == widget.movie.id).toList();
+
+          return Scaffold(
+            extendBodyBehindAppBar: true,
+            body: CustomScrollView(
+              controller: _controller,
+              slivers: [
+                SliverAppBar(
+                  pinned: true,
+                  expandedHeight: appBarHeight,
+                  flexibleSpace: FlexibleSpaceBar(
+                    expandedTitleScale: 1,
+                    collapseMode: CollapseMode.pin,
+                    title: appBarTitle,
+                    background: cover,
+                  ),
+                ),
+                SliverList(
+                  delegate: SliverChildListDelegate([
+                    // cover,
+                    // const SizedBox(height: 64),
+                    // title,
+                    info,
+                    if (widget.director != null) director,
+                    const SizedBox(height: 32),
+                  ]),
+                ),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (_, index) {
+                      return ReviewWidget(
+                        review: reviews[index],
+                        // TODO: remove hardcoded user
+                        user: const User(
+                          id: "asdf",
+                          name: "user name",
+                          nodeId: "asdfasdf",
+                        ),
+                      );
+                    },
+                    childCount: reviews.length,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

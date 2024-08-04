@@ -1,6 +1,6 @@
 import "../domain/movie.dart";
 
-enum MovieStatus { initial, loading, loaded, error }
+enum StateStatus { initial, loading, loaded, error }
 
 class MovieState {
   MovieState({
@@ -9,12 +9,12 @@ class MovieState {
     this.errorMessage,
   });
 
-  final MovieStatus status;
+  final StateStatus status;
   final List<Movie> movies;
   final String? errorMessage;
 
   MovieState copyWith({
-    MovieStatus? status,
+    StateStatus? status,
     List<Movie>? movies,
     String? errorMessage,
   }) {

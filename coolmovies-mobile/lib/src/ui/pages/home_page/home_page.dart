@@ -38,13 +38,13 @@ class _HomePageState extends State<HomePage> with Navigation {
           child: BlocBuilder<MovieCubit, MovieState>(
             builder: (context, state) {
               switch (state.status) {
-                case MovieStatus.initial:
+                case StateStatus.initial:
                   return const Center(child: CircularProgressIndicator());
-                case MovieStatus.loading:
+                case StateStatus.loading:
                   return const Center(child: CircularProgressIndicator());
-                case MovieStatus.loaded:
+                case StateStatus.loaded:
                   return MovieGridWidget(movies: state.movies);
-                case MovieStatus.error:
+                case StateStatus.error:
                   return Center(child: Text(state.errorMessage!));
               }
             },
