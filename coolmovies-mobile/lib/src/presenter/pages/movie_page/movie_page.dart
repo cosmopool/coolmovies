@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
-import "../../../bloc/review_cubit.dart";
+import "../../bloc/review_cubit.dart";
 import "../../../core/di.dart";
 import "../../../core/navigation.dart";
 import "../../../core/utils.dart";

@@ -3,9 +3,9 @@ import "dart:io";
 import "package:get_it/get_it.dart";
 import "package:graphql_flutter/graphql_flutter.dart";
 
-import "../bloc/movie_cubit.dart";
-import "../bloc/review_cubit.dart";
-import "../bloc/state_status.dart";
+import "../presenter/bloc/movie_cubit.dart";
+import "../presenter/bloc/review_cubit.dart";
+import "../presenter/bloc/state_status.dart";
 import "../repository/movies_repository.dart";
 import "../repository/review_repository.dart";
 

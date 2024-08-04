@@ -1,10 +1,10 @@
 import "package:flutter/foundation.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
-import "../../bloc/state_status.dart";
 import "../../domain/movie.dart";
 import "../../domain/review.dart";
 import "../../repository/review_repository.dart";
+import "state_status.dart";
 
 class ReviewCubit extends Cubit<ReviewState> {
   ReviewCubit(super.initialState, this._repo);
