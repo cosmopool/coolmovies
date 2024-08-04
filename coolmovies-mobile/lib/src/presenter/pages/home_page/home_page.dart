@@ -39,8 +39,10 @@ class _HomePageState extends State<HomePage> with Navigation {
             builder: (context, state) {
               switch (state.status) {
                 case StateStatus.initial:
+                  // TODO: add shimmer on loading
                   return const Center(child: CircularProgressIndicator());
                 case StateStatus.loading:
+                  // TODO: add shimmer on loading
                   return const Center(child: CircularProgressIndicator());
                 case StateStatus.loaded:
                   return MovieGridWidget(movies: state.movies);
