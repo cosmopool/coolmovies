@@ -1,7 +1,7 @@
 import "package:flutter_bloc/flutter_bloc.dart";
 
 import "../../domain/movie.dart";
-import "../../repository/movies_repository.dart";
+import "../../repository/movie_repository.dart";
 import "state_status.dart";
 
 class MovieCubit extends Cubit<MovieState> {

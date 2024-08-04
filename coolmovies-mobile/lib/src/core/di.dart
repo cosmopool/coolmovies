@@ -6,7 +6,7 @@ import "package:graphql_flutter/graphql_flutter.dart";
 import "../presenter/bloc/movie_cubit.dart";
 import "../presenter/bloc/review_cubit.dart";
 import "../presenter/bloc/state_status.dart";
-import "../repository/movies_repository.dart";
+import "../repository/movie_repository.dart";
 import "../repository/review_repository.dart";
 
 final getIt = GetIt.instance;
