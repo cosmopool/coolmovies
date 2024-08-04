@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Coolmovies",
       theme: ThemeData(
-        colorSchemeSeed: Colors.blue,
+        colorSchemeSeed: const Color(0xFF2D3045),
         brightness: Brightness.dark,
         textTheme: textTheme,
       ),
