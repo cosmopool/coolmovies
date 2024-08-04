@@ -1,12 +1,15 @@
+import "package:collection/collection.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
-import "../../bloc/review_cubit.dart";
 import "../../../core/di.dart";
 import "../../../core/navigation.dart";
 import "../../../core/utils.dart";
 import "../../../domain/movie.dart";
-import "../../../domain/user.dart";
+import "../../../domain/review.dart";
+import "../../bloc/review_cubit.dart";
+import "../../bloc/state_status.dart";
+import "../../bloc/user_cubit.dart";
 import "../../widgets/review_widget.dart";
 
 class MovieInfoPage extends StatefulWidget {
@@ -25,6 +28,7 @@ class MovieInfoPage extends StatefulWidget {
 
 class _MovieInfoPageState extends State<MovieInfoPage> with Navigation {
   final reviewCubit = getIt.get<ReviewCubit>();
+  final _userCubit = getIt.get<UserCubit>();
   late final _controller = ScrollController();
 
   double scrollOffset = 0;
@@ -139,15 +143,7 @@ class _MovieInfoPageState extends State<MovieInfoPage> with Navigation {
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (_, index) {
-                      return ReviewWidget(
-                        review: reviews[index],
-                        // TODO: remove hardcoded user
-                        user: const User(
-                          id: "asdf",
-                          name: "user name",
-                          nodeId: "asdfasdf",
-                        ),
-                      );
+                      return _buildReviewCard(reviews[index]);
                     },
                     childCount: reviews.length,
                   ),
@@ -157,6 +153,30 @@ class _MovieInfoPageState extends State<MovieInfoPage> with Navigation {
           );
         },
       ),
+    );
+  }
+
+  Widget _buildReviewCard(Review review) {
+    final bloc = BlocBuilder<UserCubit, UserState>(
+      builder: (_, state) {
+        if (state.status == StateStatus.loading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (state.status == StateStatus.error) {
+          return Center(child: Text(state.error!.exception.toString()));
+        }
+
+        final user = state.users.firstWhereOrNull((u) => u.id == review.userId);
+        if (user != null) return ReviewWidget(review: review, user: user);
+        if (_userCubit.isReadyToFetch) _userCubit.fetchAll();
+        return const SizedBox.shrink();
+      },
+    );
+
+    return BlocProvider(
+      create: (_) => _userCubit,
+      child: bloc,
     );
   }
 }
