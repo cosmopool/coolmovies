@@ -37,11 +37,13 @@ class UserState {
     required this.status,
     this.users = const [],
     this.error,
+    this.current,
   });
 
   final StateStatus status;
   final List<User> users;
   final Failure? error;
+  final User? current;
 
   UserState copyWith({
     StateStatus? status,

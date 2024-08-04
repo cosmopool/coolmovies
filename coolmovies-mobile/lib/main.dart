@@ -3,7 +3,7 @@ import "package:google_fonts/google_fonts.dart";
 
 import "src/core/custom_behaviour.dart";
 import "src/core/di.dart";
-import "src/presenter/pages/home_page/home_page.dart";
+import "src/presenter/pages/home_page.dart";
 
 void main() async {
   setupDependencyInjection();

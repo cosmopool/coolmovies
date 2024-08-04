@@ -2,16 +2,16 @@ import "package:collection/collection.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
-import "../../../core/di.dart";
-import "../../../core/navigation.dart";
-import "../../../core/utils.dart";
-import "../../../domain/movie.dart";
-import "../../../domain/review.dart";
-import "../../bloc/review_cubit.dart";
-import "../../bloc/state_status.dart";
-import "../../bloc/user_cubit.dart";
-import "../../widgets/default_page_widget.dart";
-import "../../widgets/review_widget.dart";
+import "../../core/di.dart";
+import "../../core/navigation.dart";
+import "../../core/utils.dart";
+import "../../domain/movie.dart";
+import "../../domain/review.dart";
+import "../bloc/review_cubit.dart";
+import "../bloc/state_status.dart";
+import "../bloc/user_cubit.dart";
+import "../widgets/default_page_widget.dart";
+import "../widgets/review_widget.dart";
 
 class MovieInfoPage extends StatefulWidget {
   const MovieInfoPage({

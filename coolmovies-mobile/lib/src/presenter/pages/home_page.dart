@@ -1,11 +1,11 @@
 import "package:flutter/material.dart";
 
-import "../../../core/di.dart";
-import "../../../core/navigation.dart";
-import "../../bloc/movie_cubit.dart";
-import "../../bloc/state_status.dart";
-import "../../widgets/default_page_widget.dart";
-import "../../widgets/movie_grid_widget.dart";
+import "../../core/di.dart";
+import "../../core/navigation.dart";
+import "../bloc/movie_cubit.dart";
+import "../bloc/state_status.dart";
+import "../widgets/default_page_widget.dart";
+import "../widgets/movie_grid_widget.dart";
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
