@@ -11,7 +11,6 @@ abstract class UserMapper {
     return <String, dynamic>{
       kId: user.id,
       kName: user.name,
-      kNodeId: user.nodeId,
     };
   }
 
@@ -19,7 +18,6 @@ abstract class UserMapper {
     return User(
       id: map[kId] as String,
       name: map[kName] as String,
-      nodeId: map[kNodeId] as String,
     );
   }
 
