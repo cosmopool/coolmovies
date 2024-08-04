@@ -3,7 +3,7 @@ import "package:flutter/material.dart";
 import "../../core/navigation.dart";
 import "../../core/utils.dart";
 import "../../domain/movie.dart";
-import "../pages/movie_page/movie_info_page.dart";
+import "../pages/movie_info_page/movie_info_page.dart";
 import "movie_card_widget.dart";
 
 class MovieGridWidget extends StatefulWidget {
