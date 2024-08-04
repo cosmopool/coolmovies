@@ -10,6 +10,7 @@ import "../../../domain/review.dart";
 import "../../bloc/review_cubit.dart";
 import "../../bloc/state_status.dart";
 import "../../bloc/user_cubit.dart";
+import "../../widgets/custom_app_bar.dart";
 import "../../widgets/review_widget.dart";
 
 class MovieInfoPage extends StatefulWidget {
@@ -61,7 +62,7 @@ class _MovieInfoPageState extends State<MovieInfoPage> with Navigation {
       shaderCallback: (rect) {
         return const LinearGradient(
           begin: Alignment(0, 0.4),
-          end: Alignment(0, 1),
+          end: Alignment(0, 0.9),
           colors: [Colors.black, Colors.transparent],
         ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
       },
@@ -102,43 +103,44 @@ class _MovieInfoPageState extends State<MovieInfoPage> with Navigation {
       ),
     );
 
+    final value = Utils.normalize(
+      scrollOffset,
+      min: appBarHeight * 0.8,
+      max: appBarHeight,
+    );
     final appBarTitle = Opacity(
-      opacity: Utils.normalize(
-        scrollOffset,
-        min: 0,
-        max: appBarHeight,
-      ),
+      opacity: value,
       child: Text(
         widget.movie.title,
-        style: TextStyle(color: colors.onSurface),
+        style: TextStyle(
+          color: colors.onSurface,
+          fontWeight: FontWeight.bold,
+          fontSize: 18,
+        ),
       ),
     );
 
     return BlocProvider(
       create: (_) => reviewCubit,
       child: BlocBuilder<ReviewCubit, ReviewState>(
+      bloc: reviewCubit,
         builder: (context, state) {
           final reviews =
               state.reviews.where((e) => e.movieId == widget.movie.id).toList();
 
           return Scaffold(
             extendBodyBehindAppBar: true,
+            appBar: CustomAppBar(
+              title: appBarTitle,
+              backgroundColor: Color.lerp(null, colors.surface, value),
+            ),
             body: CustomScrollView(
               controller: _controller,
               slivers: [
-                SliverAppBar(
-                  pinned: true,
-                  expandedHeight: appBarHeight,
-                  flexibleSpace: FlexibleSpaceBar(
-                    expandedTitleScale: 1,
-                    collapseMode: CollapseMode.pin,
-                    title: appBarTitle,
-                    centerTitle: true,
-                    background: cover,
-                  ),
-                ),
                 SliverList(
                   delegate: SliverChildListDelegate([
+                    cover,
+                    const SizedBox(height: 32),
                     info,
                     const SizedBox(height: 32),
                   ]),
