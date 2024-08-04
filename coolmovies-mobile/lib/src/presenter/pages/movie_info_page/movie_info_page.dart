@@ -67,14 +67,11 @@ class _MovieInfoPageState extends State<MovieInfoPage> with Navigation {
         ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
       },
       blendMode: BlendMode.dstIn,
-      child: Hero(
-        tag: widget.movie.id,
-        child: Image.network(
-          widget.movie.imageUrl,
-          width: size.width,
-          height: appBarHeight,
-          fit: BoxFit.cover,
-        ),
+      child: Image.network(
+        widget.movie.imageUrl,
+        width: size.width,
+        height: appBarHeight,
+        fit: BoxFit.cover,
       ),
     );
 
