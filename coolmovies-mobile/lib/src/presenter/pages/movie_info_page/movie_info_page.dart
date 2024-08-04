@@ -159,18 +159,13 @@ class _MovieInfoPageState extends State<MovieInfoPage> with Navigation {
   Widget _buildReviewCard(Review review) {
     final bloc = BlocBuilder<UserCubit, UserState>(
       builder: (_, state) {
-        if (state.status == StateStatus.loading) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
         if (state.status == StateStatus.error) {
           return Center(child: Text(state.error!.exception.toString()));
         }
 
         final user = state.users.firstWhereOrNull((u) => u.id == review.userId);
-        if (user != null) return ReviewWidget(review: review, user: user);
-        if (_userCubit.isReadyToFetch) _userCubit.fetchAll();
-        return const SizedBox.shrink();
+        if (user == null && _userCubit.isReadyToFetch) _userCubit.fetchAll();
+        return ReviewWidget(review: review, user: user);
       },
     );
 

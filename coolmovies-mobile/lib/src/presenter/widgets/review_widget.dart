@@ -11,7 +11,7 @@ class ReviewWidget extends StatelessWidget {
   });
 
   final Review review;
-  final User user;
+  final User? user;
 
   static const borderRadius = BorderRadius.all(Radius.circular(8));
   static const _space = 12.0;
@@ -53,7 +53,7 @@ class ReviewWidget extends StatelessWidget {
 
     final bodyTextStyle = TextStyle(color: colors.onSurface);
     final body = Text(review.body, style: bodyTextStyle);
-    final reviewer = Text(user.name, style: bodyTextStyle);
+    final reviewer = Text(user?.name ?? "", style: bodyTextStyle);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: _space),
@@ -70,9 +70,10 @@ class ReviewWidget extends StatelessWidget {
             space,
             body,
             space,
-            const Divider(),
-            space,
-            reviewer,
+            // TODO: show shimmer when user is null
+            if (user != null) const Divider(),
+            if (user != null) space,
+            if (user != null) reviewer,
           ],
         ),
       ),
