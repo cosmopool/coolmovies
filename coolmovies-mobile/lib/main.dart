@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 
+import "src/core/custom_behaviour.dart";
 import "src/core/di.dart";
 import "src/presenter/pages/home_page/home_page.dart";
 
@@ -23,6 +24,14 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       themeMode: ThemeMode.dark,
+      builder: (context, child) {
+        if (child == null) return const SizedBox.shrink();
+
+        return ScrollConfiguration(
+          behavior: CustomScrollBehaviour(),
+          child: child,
+        );
+      },
       home: const HomePage(title: "Coolmovies"),
     );
   }
