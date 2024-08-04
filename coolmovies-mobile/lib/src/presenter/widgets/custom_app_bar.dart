@@ -34,8 +34,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: showBackButton ? const BackButtonWidget() : null,
       centerTitle: centerTitle,
       title: title,
+      elevation: 0,
       scrolledUnderElevation: 0,
-      backgroundColor: backgroundColor ?? colors.surface,
+      backgroundColor: backgroundColor,
       bottom: line,
     );
   }
