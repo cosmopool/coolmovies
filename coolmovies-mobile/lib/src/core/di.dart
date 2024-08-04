@@ -27,6 +27,6 @@ void setupDependencyInjection() {
   getIt.registerLazySingleton(() => ReviewRepository(getIt()));
   getIt.registerSingleton(MovieState(status: StateStatus.initial));
   getIt.registerSingleton(ReviewState(status: StateStatus.initial));
-  getIt.registerFactory<MovieCubit>(() => MovieCubit(getIt(), getIt()));
-  getIt.registerFactory<ReviewCubit>(() => ReviewCubit(getIt(), getIt()));
+  getIt.registerFactory(() => MovieCubit(getIt(), getIt()));
+  getIt.registerFactory(() => ReviewCubit(getIt(), getIt()));
 }
