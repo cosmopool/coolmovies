@@ -1,6 +1,7 @@
 import "package:flutter/foundation.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
+import "../../core/error.dart";
 import "../../domain/movie.dart";
 import "../../domain/review.dart";
 import "../../repository/review_repository.dart";
@@ -20,11 +21,10 @@ class ReviewCubit extends Cubit<ReviewState> {
     try {
       final reviews = await _repo.fetchAllByMovie(movie);
       emit(state.copyWith(status: StateStatus.loaded, reviews: reviews));
-    } catch (e) {
-      if (kDebugMode) debugPrint(e.toString());
-      emit(
-        state.copyWith(status: StateStatus.error, errorMessage: e.toString()),
-      );
+    } catch (e, st) {
+      final failure = Failure(e, st);
+      if (kDebugMode) debugPrint(failure.toString());
+      emit(state.copyWith(status: StateStatus.error, error: failure));
     }
   }
 }
@@ -33,22 +33,22 @@ class ReviewState {
   ReviewState({
     required this.status,
     this.reviews = const [],
-    this.errorMessage,
+    this.error,
   });
 
   final StateStatus status;
   final List<Review> reviews;
-  final String? errorMessage;
+  final Failure? error;
 
   ReviewState copyWith({
     StateStatus? status,
     List<Review>? reviews,
-    String? errorMessage,
+    Failure? error,
   }) {
     return ReviewState(
       status: status ?? this.status,
       reviews: reviews ?? this.reviews,
-      errorMessage: errorMessage ?? this.errorMessage,
+      error: error ?? this.error,
     );
   }
 }

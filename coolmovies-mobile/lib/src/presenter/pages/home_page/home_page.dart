@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> with Navigation {
                 case StateStatus.loaded:
                   return MovieGridWidget(movies: state.movies);
                 case StateStatus.error:
-                  return Center(child: Text(state.errorMessage!));
+                  return Center(child: Text(state.error!.exception.toString()));
               }
             },
           ),
