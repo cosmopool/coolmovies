@@ -39,7 +39,7 @@ class _AllMoviesPageState extends State<AllMoviesPage> with Navigation {
             // TODO: add shimmer on loading
             return const Center(child: CircularProgressIndicator());
           case StateStatus.loaded:
-            return MovieGridWidget(movies: state.movies);
+            return SafeArea(child: MovieGridWidget(movies: state.movies));
           case StateStatus.error:
             return Center(child: Text(state.error!.exception.toString()));
         }

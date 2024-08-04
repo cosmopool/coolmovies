@@ -14,10 +14,11 @@ class DefaultPageWidget<CubitState> extends StatelessWidget {
     this.showBackButton = true,
     this.extendBodyBehindAppBar = true,
     this.centerAppBarTitle = false,
+    this.showGradientBackground = false,
   });
 
   factory DefaultPageWidget.home({
-    required Widget appBarTitle,
+    Widget? appBarTitle,
     required Cubit<CubitState> bloc,
     required Widget Function(BuildContext, CubitState) builder,
   }) {
@@ -27,12 +28,14 @@ class DefaultPageWidget<CubitState> extends StatelessWidget {
       appBarTitle: appBarTitle,
       useSafeArea: false,
       showBackButton: false,
-      extendBodyBehindAppBar: false,
+      extendBodyBehindAppBar: true,
       centerAppBarTitle: true,
+      appBarBgColor: Colors.transparent,
+      showGradientBackground: true,
     );
   }
 
-  final Widget appBarTitle;
+  final Widget? appBarTitle;
   final Color? appBarBgColor;
   final bool useSafeArea;
   final bool showBackButton;
@@ -40,11 +43,32 @@ class DefaultPageWidget<CubitState> extends StatelessWidget {
   final bool centerAppBarTitle;
   final Cubit<CubitState> bloc;
   final Widget Function(BuildContext, CubitState) builder;
+  final bool showGradientBackground;
 
   static const borderRadius = Radius.circular(12);
 
   @override
   Widget build(BuildContext context) {
+    final blocBuilder = BlocBuilder<Cubit<CubitState>, CubitState>(
+      builder: builder,
+      bloc: bloc,
+    );
+
+    final colors = Theme.of(context).colorScheme;
+    final gradientBackground = Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          end: Alignment.topCenter,
+          begin: const Alignment(0, 0.0),
+          colors: [
+            colors.surfaceContainerLowest,
+            colors.surfaceContainer,
+          ],
+        ),
+      ),
+      child: blocBuilder,
+    );
+
     final scaffold = Scaffold(
       appBar: CustomAppBar(
         title: appBarTitle,
@@ -53,10 +77,7 @@ class DefaultPageWidget<CubitState> extends StatelessWidget {
         centerTitle: centerAppBarTitle,
       ),
       extendBodyBehindAppBar: extendBodyBehindAppBar,
-      body: BlocBuilder<Cubit<CubitState>, CubitState>(
-        builder: builder,
-        bloc: bloc,
-      ),
+      body: showGradientBackground ? gradientBackground : blocBuilder,
     );
 
     if (!useSafeArea) return scaffold;
