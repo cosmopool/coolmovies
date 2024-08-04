@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:google_fonts/google_fonts.dart";
 
 import "src/core/custom_behaviour.dart";
 import "src/core/di.dart";
@@ -14,11 +15,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = GoogleFonts.figtreeTextTheme(Theme.of(context).textTheme);
+
     return MaterialApp(
       title: "Flutter Demo",
       theme: ThemeData(
         colorSchemeSeed: Colors.blue,
         brightness: Brightness.dark,
+        textTheme: textTheme,
       ),
       builder: (context, child) {
         if (child == null) return const SizedBox.shrink();
