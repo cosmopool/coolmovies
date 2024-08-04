@@ -9,8 +9,8 @@ import "../../../domain/movie.dart";
 import "../../../domain/user.dart";
 import "../../widgets/review_widget.dart";
 
-class MoviePage extends StatefulWidget {
-  const MoviePage({
+class MovieInfoPage extends StatefulWidget {
+  const MovieInfoPage({
     super.key,
     required this.movie,
     this.director,
@@ -20,10 +20,10 @@ class MoviePage extends StatefulWidget {
   final String? director;
 
   @override
-  State<MoviePage> createState() => _MoviePageState();
+  State<MovieInfoPage> createState() => _MovieInfoPageState();
 }
 
-class _MoviePageState extends State<MoviePage> with Navigation {
+class _MovieInfoPageState extends State<MovieInfoPage> with Navigation {
   final reviewCubit = getIt.get<ReviewCubit>();
   late final _controller = ScrollController();
 
