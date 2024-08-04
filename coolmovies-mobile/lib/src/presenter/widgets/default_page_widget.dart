@@ -13,6 +13,7 @@ class DefaultPageWidget<CubitState> extends StatelessWidget {
     this.useSafeArea = true,
     this.showBackButton = true,
     this.extendBodyBehindAppBar = true,
+    this.centerAppBarTitle = false,
   });
 
   factory DefaultPageWidget.home({
@@ -27,6 +28,7 @@ class DefaultPageWidget<CubitState> extends StatelessWidget {
       useSafeArea: false,
       showBackButton: false,
       extendBodyBehindAppBar: false,
+      centerAppBarTitle: true,
     );
   }
 
@@ -35,6 +37,7 @@ class DefaultPageWidget<CubitState> extends StatelessWidget {
   final bool useSafeArea;
   final bool showBackButton;
   final bool extendBodyBehindAppBar;
+  final bool centerAppBarTitle;
   final Cubit<CubitState> bloc;
   final Widget Function(BuildContext, CubitState) builder;
 
@@ -47,6 +50,7 @@ class DefaultPageWidget<CubitState> extends StatelessWidget {
         title: appBarTitle,
         backgroundColor: appBarBgColor,
         showBackButton: showBackButton,
+        centerTitle: centerAppBarTitle,
       ),
       extendBodyBehindAppBar: extendBodyBehindAppBar,
       body: BlocBuilder<Cubit<CubitState>, CubitState>(

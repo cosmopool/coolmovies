@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     final textTheme = GoogleFonts.figtreeTextTheme(Theme.of(context).textTheme);
 
     return MaterialApp(
-      title: "Flutter Demo",
+      title: "Coolmovies",
       theme: ThemeData(
         colorSchemeSeed: Colors.blue,
         brightness: Brightness.dark,
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           child: child,
         );
       },
-      home: const HomePage(title: "Coolmovies"),
+      home: const HomePage(title: "coolmovies"),
     );
   }
 }
