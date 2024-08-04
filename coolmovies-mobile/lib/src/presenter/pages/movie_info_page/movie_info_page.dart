@@ -105,8 +105,8 @@ class _MovieInfoPageState extends State<MovieInfoPage> with Navigation {
     final appBarTitle = Opacity(
       opacity: Utils.normalize(
         scrollOffset,
-        min: appBarHeight * 0.6,
-        max: appBarHeight * 0.9,
+        min: 0,
+        max: appBarHeight,
       ),
       child: Text(
         widget.movie.title,
@@ -133,12 +133,12 @@ class _MovieInfoPageState extends State<MovieInfoPage> with Navigation {
                     expandedTitleScale: 1,
                     collapseMode: CollapseMode.pin,
                     title: appBarTitle,
+                    centerTitle: true,
                     background: cover,
                   ),
                 ),
                 SliverList(
                   delegate: SliverChildListDelegate([
-                    const SizedBox(height: 32),
                     info,
                     const SizedBox(height: 32),
                   ]),
