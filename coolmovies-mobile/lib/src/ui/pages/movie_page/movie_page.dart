@@ -2,20 +2,21 @@ import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
 import "../../../bloc/movie_cubit.dart";
+import "../../../bloc/movie_state.dart";
 import "../../../core/di.dart";
 import "../../../core/navigation.dart";
 import "../../../core/utils.dart";
 import "../../../domain/movie.dart";
+import "../../../domain/user.dart";
+import "../../widgets/review_widget.dart";
 
 class MoviePage extends StatefulWidget {
   const MoviePage({
     super.key,
     required this.movie,
-    required this.image,
   });
 
   final Movie movie;
-  final Image image;
 
   @override
   State<MoviePage> createState() => _MoviePageState();

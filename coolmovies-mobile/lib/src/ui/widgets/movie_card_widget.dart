@@ -10,7 +10,7 @@ class MovieCardWidget extends StatelessWidget {
   });
 
   final Movie movie;
-  final void Function(Image) onTap;
+  final VoidCallback onTap;
 
   static const double _width = 130;
 
@@ -46,7 +46,7 @@ class MovieCardWidget extends StatelessWidget {
 
     return Column(
       children: [
-        InkWell(onTap: () => onTap(image), child: imageWidget),
+        InkWell(onTap: () => onTap(), child: imageWidget),
         title,
       ],
     );
