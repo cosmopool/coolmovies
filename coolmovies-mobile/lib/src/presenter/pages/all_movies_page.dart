@@ -7,16 +7,16 @@ import "../bloc/state_status.dart";
 import "../widgets/default_page_widget.dart";
 import "../widgets/movie_grid_widget.dart";
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.title});
+class AllMoviesPage extends StatefulWidget {
+  const AllMoviesPage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<AllMoviesPage> createState() => _AllMoviesPageState();
 }
 
-class _HomePageState extends State<HomePage> with Navigation {
+class _AllMoviesPageState extends State<AllMoviesPage> with Navigation {
   final MovieCubit movieCubit = getIt.get<MovieCubit>();
 
   @override

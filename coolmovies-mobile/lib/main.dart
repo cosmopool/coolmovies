@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           child: child,
         );
       },
-      home: const HomePage(title: "coolmovies"),
+      home: const AllMoviesPage(title: "coolmovies"),
     );
   }
 }
