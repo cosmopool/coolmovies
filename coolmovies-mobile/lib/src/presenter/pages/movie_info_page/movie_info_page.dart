@@ -10,7 +10,7 @@ import "../../../domain/review.dart";
 import "../../bloc/review_cubit.dart";
 import "../../bloc/state_status.dart";
 import "../../bloc/user_cubit.dart";
-import "../../widgets/custom_app_bar.dart";
+import "../../widgets/default_page_widget.dart";
 import "../../widgets/review_widget.dart";
 
 class MovieInfoPage extends StatefulWidget {
@@ -120,40 +120,37 @@ class _MovieInfoPageState extends State<MovieInfoPage> with Navigation {
       ),
     );
 
-    return BlocBuilder<ReviewCubit, ReviewState>(
+    return DefaultPageWidget<ReviewState>(
+      appBarTitle: appBarTitle,
+      appBarBgColor: Color.lerp(null, colors.surface, value),
       bloc: reviewCubit,
       builder: (context, state) {
         final reviews =
             state.reviews.where((e) => e.movieId == widget.movie.id).toList();
 
-        return Scaffold(
-          extendBodyBehindAppBar: true,
-          appBar: CustomAppBar(
-            title: appBarTitle,
-            backgroundColor: Color.lerp(null, colors.surface, value),
-          ),
-          body: CustomScrollView(
-            controller: _controller,
-            slivers: [
-              SliverList(
-                delegate: SliverChildListDelegate([
-                  cover,
-                  const SizedBox(height: 32),
-                  info,
-                  const SizedBox(height: 32),
-                ]),
-              ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (_, index) {
-                    return _buildReviewCard(reviews[index]);
-                  },
-                  childCount: reviews.length,
-                ),
-              ),
-            ],
+        final headerSliver = SliverList(
+          delegate: SliverChildListDelegate([
+            cover,
+            info,
+            const SizedBox(height: 32),
+          ]),
+        );
+
+        final reviewList = SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (_, index) => _buildReviewCard(reviews[index]),
+            childCount: reviews.length,
           ),
         );
+
+        return CustomScrollView(
+          controller: _controller,
+          slivers: [
+            headerSliver,
+            reviewList,
+          ],
+        );
+        // );
       },
     );
   }

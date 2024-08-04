@@ -1,10 +1,10 @@
 import "package:flutter/material.dart";
-import "package:flutter_bloc/flutter_bloc.dart";
 
-import "../../bloc/movie_cubit.dart";
-import "../../bloc/state_status.dart";
 import "../../../core/di.dart";
 import "../../../core/navigation.dart";
+import "../../bloc/movie_cubit.dart";
+import "../../bloc/state_status.dart";
+import "../../widgets/default_page_widget.dart";
 import "../../widgets/movie_grid_widget.dart";
 
 class HomePage extends StatefulWidget {
@@ -27,30 +27,23 @@ class _HomePageState extends State<HomePage> with Navigation {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: BlocBuilder<MovieCubit, MovieState>(
-          bloc: movieCubit,
-          builder: (context, state) {
-            switch (state.status) {
-              case StateStatus.initial:
-                // TODO: add shimmer on loading
-                return const Center(child: CircularProgressIndicator());
-              case StateStatus.loading:
-                // TODO: add shimmer on loading
-                return const Center(child: CircularProgressIndicator());
-              case StateStatus.loaded:
-                return MovieGridWidget(movies: state.movies);
-              case StateStatus.error:
-                return Center(child: Text(state.error!.exception.toString()));
-            }
-          },
-        ),
-      ),
+    return DefaultPageWidget<MovieState>.home(
+      appBarTitle: Text(widget.title),
+      bloc: movieCubit,
+      builder: (context, state) {
+        switch (state.status) {
+          case StateStatus.initial:
+            // TODO: add shimmer on loading
+            return const Center(child: CircularProgressIndicator());
+          case StateStatus.loading:
+            // TODO: add shimmer on loading
+            return const Center(child: CircularProgressIndicator());
+          case StateStatus.loaded:
+            return MovieGridWidget(movies: state.movies);
+          case StateStatus.error:
+            return Center(child: Text(state.error!.exception.toString()));
+        }
+      },
     );
   }
 }

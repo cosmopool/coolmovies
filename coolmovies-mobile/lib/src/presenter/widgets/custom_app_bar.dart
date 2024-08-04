@@ -7,10 +7,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     this.title,
     this.backgroundColor,
+    this.showBackButton = true,
   });
 
   final Widget? title;
   final Color? backgroundColor;
+  final bool showBackButton;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
 
     return AppBar(
-      leading: const BackButtonWidget(),
+      leading: showBackButton ? const BackButtonWidget() : null,
       title: title,
       scrolledUnderElevation: 0,
       backgroundColor: backgroundColor ?? colors.surface,
