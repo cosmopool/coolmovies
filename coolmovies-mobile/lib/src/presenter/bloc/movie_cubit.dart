@@ -8,7 +8,7 @@ class MovieCubit extends Cubit<MovieState> {
   MovieCubit(super.initialState, this._repo);
   MovieCubit.init(this._repo) : super(MovieState(status: StateStatus.initial));
 
-  final MoviesRepository _repo;
+  final MovieRepository _repo;
 
   Future<void> fetchAll() async {
     emit(state.copyWith(status: StateStatus.loading));

@@ -23,7 +23,7 @@ void setupDependencyInjection() {
   );
 
   getIt.registerSingleton(graphQLClient);
-  getIt.registerLazySingleton(() => MoviesRepository(getIt()));
+  getIt.registerLazySingleton(() => MovieRepository(getIt()));
   getIt.registerLazySingleton(() => ReviewRepository(getIt()));
   getIt.registerSingleton(MovieState(status: StateStatus.initial));
   getIt.registerSingleton(ReviewState(status: StateStatus.initial));

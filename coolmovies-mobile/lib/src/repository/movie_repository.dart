@@ -3,8 +3,8 @@ import "package:graphql_flutter/graphql_flutter.dart";
 import "../domain/movie.dart";
 import "../mappers/movie_mapper.dart";
 
-class MoviesRepository {
-  MoviesRepository(this._client);
+class MovieRepository {
+  MovieRepository(this._client);
 
   final GraphQLClient _client;
 
