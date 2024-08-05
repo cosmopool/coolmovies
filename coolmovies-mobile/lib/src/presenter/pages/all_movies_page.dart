@@ -48,6 +48,7 @@ class _AllMoviesPageState extends State<AllMoviesPage> with Navigation {
           case StateStatus.loaded:
             return SafeArea(child: MovieGridWidget(movies: state.movies));
           case StateStatus.error:
+            // TODO: better error display
             return Center(child: Text(state.error!.exception.toString()));
         }
       },
