@@ -31,7 +31,7 @@ void setupDependencyInjection() {
   getIt.registerSingleton(MovieState(status: StateStatus.initial));
   getIt.registerSingleton(ReviewState(status: StateStatus.initial));
   getIt.registerSingleton(UserState(status: StateStatus.initial));
-  getIt.registerFactory(() => MovieCubit(getIt(), getIt()));
-  getIt.registerFactory(() => ReviewCubit(getIt(), getIt()));
-  getIt.registerFactory(() => UserCubit(getIt(), getIt()));
+  getIt.registerLazySingleton(() => MovieCubit(getIt(), getIt()));
+  getIt.registerLazySingleton(() => ReviewCubit(getIt(), getIt()));
+  getIt.registerLazySingleton(() => UserCubit(getIt(), getIt()));
 }
