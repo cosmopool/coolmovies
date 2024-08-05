@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 
-enum NavAnimation { rightToLeft, bottomToTop, fadeIn }
+enum NavAnimation { rightToLeft, bottomToTop, fadeIn, defaultAnim }
 
 /// Wrapper of [Navigator] that facilitates pushing new pages
 mixin Navigation {
@@ -52,6 +52,10 @@ mixin Navigation {
             );
           },
         );
+
+      case NavAnimation.defaultAnim:
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) => page));
+        return;
 
       case NavAnimation.rightToLeft: // set rightToLeft as default
       default:
