@@ -13,6 +13,8 @@ class UserCubit extends Cubit<UserState> {
   final UserRepository _repo;
   DateTime lastFetch = DateTime(1970);
 
+  void setCurrent(User user) => emit(state.copyWith(current: user));
+
   Future<void> fetchAll() async {
     if (isClosed) return;
 
@@ -49,11 +51,13 @@ class UserState {
     StateStatus? status,
     List<User>? users,
     Failure? error,
+    User? current,
   }) {
     return UserState(
       status: status ?? this.status,
       users: users ?? this.users,
       error: error ?? this.error,
+      current: current ?? this.current,
     );
   }
 }

@@ -6,6 +6,7 @@ import "../bloc/movie_cubit.dart";
 import "../bloc/state_status.dart";
 import "../widgets/default_page_widget.dart";
 import "../widgets/movie_grid_widget.dart";
+import "choose_profile_page.dart";
 
 class AllMoviesPage extends StatefulWidget {
   const AllMoviesPage({super.key, required this.title});
@@ -27,8 +28,14 @@ class _AllMoviesPageState extends State<AllMoviesPage> with Navigation {
 
   @override
   Widget build(BuildContext context) {
+    final profileButton = IconButton(
+      onPressed: () => pushPage(const ChooseProfilePage(), NavAnimation.fadeIn),
+      icon: const Icon(Icons.account_circle_outlined),
+    );
+
     return DefaultPageWidget<MovieState>.home(
       appBarTitle: Text(widget.title),
+      actions: [profileButton],
       bloc: movieCubit,
       builder: (context, state) {
         switch (state.status) {

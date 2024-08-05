@@ -15,10 +15,12 @@ class DefaultPageWidget<CubitState> extends StatelessWidget {
     this.extendBodyBehindAppBar = true,
     this.centerAppBarTitle = false,
     this.showGradientBackground = false,
+    this.actions,
   });
 
   factory DefaultPageWidget.home({
     Widget? appBarTitle,
+    List<Widget>? actions,
     required Cubit<CubitState> bloc,
     required Widget Function(BuildContext, CubitState) builder,
   }) {
@@ -32,6 +34,7 @@ class DefaultPageWidget<CubitState> extends StatelessWidget {
       centerAppBarTitle: true,
       appBarBgColor: Colors.transparent,
       showGradientBackground: true,
+      actions: actions,
     );
   }
 
@@ -44,6 +47,7 @@ class DefaultPageWidget<CubitState> extends StatelessWidget {
   final Cubit<CubitState> bloc;
   final Widget Function(BuildContext, CubitState) builder;
   final bool showGradientBackground;
+  final List<Widget>? actions;
 
   static const borderRadius = Radius.circular(12);
 
@@ -61,7 +65,7 @@ class DefaultPageWidget<CubitState> extends StatelessWidget {
           end: Alignment.topCenter,
           begin: const Alignment(0, 0.0),
           colors: [
-            colors.surfaceContainerLowest,
+            colors.surface,
             colors.surfaceContainer,
           ],
         ),
@@ -75,6 +79,7 @@ class DefaultPageWidget<CubitState> extends StatelessWidget {
         backgroundColor: appBarBgColor,
         showBackButton: showBackButton,
         centerTitle: centerAppBarTitle,
+        actions: actions,
       ),
       extendBodyBehindAppBar: extendBodyBehindAppBar,
       body: showGradientBackground ? gradientBackground : blocBuilder,
