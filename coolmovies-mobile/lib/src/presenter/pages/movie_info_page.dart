@@ -183,7 +183,7 @@ class _MovieInfoPageState extends State<MovieInfoPage> with Navigation {
       context,
       onPressed: () {
         Navigator.of(context).pop();
-        pushPage(const ChooseProfilePage());
+        pushPage(ChooseProfilePage(movie: widget.movie));
       },
       title: "No active user!",
       content: "You must select a user to be able to write a review!",

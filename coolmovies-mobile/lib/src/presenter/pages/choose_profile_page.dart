@@ -2,12 +2,20 @@ import "package:flutter/material.dart";
 
 import "../../core/di.dart";
 import "../../core/navigation.dart";
+import "../../domain/movie.dart";
 import "../bloc/state_status.dart";
 import "../bloc/user_cubit.dart";
+import "../widgets/button_widget.dart";
 import "../widgets/default_page_widget.dart";
+import "write_review_page.dart";
 
 class ChooseProfilePage extends StatefulWidget {
-  const ChooseProfilePage({super.key});
+  const ChooseProfilePage({
+    super.key,
+    this.movie,
+  });
+
+  final Movie? movie;
 
   @override
   State<ChooseProfilePage> createState() => _ChooseProfilePageState();
@@ -39,7 +47,7 @@ class _ChooseProfilePageState extends State<ChooseProfilePage> with Navigation {
           case StateStatus.loading:
             return const Center(child: CircularProgressIndicator());
           case StateStatus.loaded:
-            return _onLoaded(context, state);
+            return _buildPage(context, state);
           case StateStatus.error:
             return Center(child: Text(state.error!.exception.toString()));
         }
@@ -47,7 +55,7 @@ class _ChooseProfilePageState extends State<ChooseProfilePage> with Navigation {
     );
   }
 
-  Widget _onLoaded(BuildContext context, UserState state) {
+  Widget _buildPage(BuildContext context, UserState state) {
     final colors = Theme.of(context).colorScheme;
     const avatarRadius = 58.0;
 
@@ -97,13 +105,35 @@ class _ChooseProfilePageState extends State<ChooseProfilePage> with Navigation {
       },
     );
 
+    final createReviewButton = ButtonWidget(
+      onPressed: _onWriteReview,
+      text: "Write Review",
+    );
+
+    final user = _userCubit.state.current;
     return SafeArea(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(height: avatarRadius * 3, child: userAvatarList),
+          const SizedBox(height: 32),
+          if (widget.movie != null && user != null) createReviewButton,
         ],
       ),
     );
+  }
+
+  void _onWriteReview() {
+    final user = _userCubit.state.current;
+    if (user == null) return;
+    assert(widget.movie != null);
+
+    Navigator.of(context).pop();
+    final page = WriteReviewPage(
+      user: user,
+      movie: widget.movie!,
+    );
+
+    pushPage(page, NavAnimation.bottomToTop);
   }
 }
