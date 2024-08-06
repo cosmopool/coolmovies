@@ -32,6 +32,7 @@ class _WriteReviewPageState extends State<WriteReviewPage> with Navigation {
 
   final titleController = TextEditingController();
   final contentController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -72,6 +73,10 @@ class _WriteReviewPageState extends State<WriteReviewPage> with Navigation {
         hintText: "Title",
         border: OutlineInputBorder(),
       ),
+      validator: (value) {
+        if (value == null || value.isEmpty) return "Please enter some text";
+        return null;
+      },
     );
 
     final contentField = TextFormField(
@@ -87,6 +92,11 @@ class _WriteReviewPageState extends State<WriteReviewPage> with Navigation {
       ),
       expands: true,
       maxLines: null,
+      validator: (value) {
+        if (value == null) return null;
+        if (!value.contains("\n")) return null;
+        return "Must not contain line breaks.";
+      },
     );
 
     const space = SizedBox(height: 24);
@@ -94,16 +104,19 @@ class _WriteReviewPageState extends State<WriteReviewPage> with Navigation {
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              _stars(),
-              space,
-              titleField,
-              space,
-              Expanded(flex: 8, child: contentField),
-              const Expanded(flex: 1, child: SizedBox(height: 24)),
-            ],
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                _stars(),
+                space,
+                titleField,
+                space,
+                Expanded(flex: 8, child: contentField),
+                const Expanded(flex: 1, child: SizedBox(height: 24)),
+              ],
+            ),
           ),
         ),
       ),
@@ -133,6 +146,19 @@ class _WriteReviewPageState extends State<WriteReviewPage> with Navigation {
   }
 
   void _createReview() {
+    final validForm = _formKey.currentState!.validate();
+    if (!validForm) return;
+
+    if (rating == 0) {
+      return CustomDialog.alert(
+        context,
+        onPressed: Navigator.of(context).pop,
+        buttonLable: "Nice!",
+        title: "Not Enough Stars!",
+        content: "Your must select at least one star",
+      );
+    }
+
     final review = Review(
       title: titleController.text,
       body: contentController.text,

@@ -43,6 +43,11 @@ class ReviewRepository {
   }
 
   Future<void> createReview(Review review) async {
+    assert(review.title.isNotEmpty);
+    assert(review.rating > 0 && review.rating <= 5);
+    assert(review.movieId.isNotEmpty);
+    assert(review.userId.isNotEmpty);
+
     final result = await _client.mutate(
       MutationOptions(
         document: gql("""
