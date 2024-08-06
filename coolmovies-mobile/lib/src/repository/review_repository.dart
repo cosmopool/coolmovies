@@ -41,4 +41,33 @@ class ReviewRepository {
     }
     return reviews;
   }
+
+  Future<void> createReview(Review review) async {
+    final result = await _client.mutate(
+      MutationOptions(
+        document: gql("""
+          mutation {
+            createMovieReview(input: {
+              movieReview: {
+                title: "${review.title}",
+                body: "${review.body}",
+                rating: ${review.rating},
+                movieId: "${review.movieId}",
+                userReviewerId: "${review.userId}"
+              }})
+            {
+              movieReview {
+                id
+              }
+            }
+          }
+      """),
+      ),
+    );
+
+    if (result.hasException) throw result.exception!;
+
+    final reviewId = result.data?["createMovieReview"]["movieReview"]["id"];
+    if (reviewId == null) throw "Not able to create this review";
+  }
 }

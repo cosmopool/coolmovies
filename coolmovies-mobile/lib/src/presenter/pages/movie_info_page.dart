@@ -10,8 +10,12 @@ import "../../domain/review.dart";
 import "../bloc/review_cubit.dart";
 import "../bloc/state_status.dart";
 import "../bloc/user_cubit.dart";
+import "../widgets/alert_dialog.dart";
+import "../widgets/button_widget.dart";
 import "../widgets/default_page_widget.dart";
 import "../widgets/review_widget.dart";
+import "choose_profile_page.dart";
+import "write_review_page.dart";
 
 class MovieInfoPage extends StatefulWidget {
   const MovieInfoPage({
@@ -33,6 +37,7 @@ class _MovieInfoPageState extends State<MovieInfoPage> with Navigation {
   double scrollOffset = 0;
 
   static const padding = EdgeInsets.symmetric(horizontal: 24);
+  late final colors = Theme.of(context).colorScheme;
 
   @override
   void initState() {
@@ -56,7 +61,6 @@ class _MovieInfoPageState extends State<MovieInfoPage> with Navigation {
   Widget build(BuildContext context) {
     final size = Utils.safeSizeArea(context);
     final appBarHeight = size.height * .7;
-    final colors = Theme.of(context).colorScheme;
 
     final cover = ShaderMask(
       shaderCallback: (rect) {
@@ -117,6 +121,11 @@ class _MovieInfoPageState extends State<MovieInfoPage> with Navigation {
       ),
     );
 
+    final createReviewButton = ButtonWidget(
+      onPressed: _onWriteReview,
+      text: "Write Review",
+    );
+
     return DefaultPageWidget<ReviewState>(
       appBarTitle: appBarTitle,
       appBarBgColor: Color.lerp(null, colors.surface, value),
@@ -130,6 +139,8 @@ class _MovieInfoPageState extends State<MovieInfoPage> with Navigation {
             cover,
             info,
             const SizedBox(height: 32),
+            createReviewButton,
+            const SizedBox(height: 12),
           ]),
         );
 
@@ -165,5 +176,29 @@ class _MovieInfoPageState extends State<MovieInfoPage> with Navigation {
         return ReviewWidget(review: review, user: user);
       },
     );
+  }
+
+  void _showNoUserSelectedDialog() {
+    return CustomDialog.alert(
+      context,
+      onPressed: () {
+        Navigator.of(context).pop();
+        pushPage(const ChooseProfilePage());
+      },
+      title: "No active user!",
+      content: "You must select a user to be able to write a review!",
+      buttonLable: "Select User",
+    );
+  }
+
+  void _onWriteReview() {
+    final user = _userCubit.state.current;
+    if (user == null) return _showNoUserSelectedDialog();
+    final page = WriteReviewPage(
+      user: user,
+      movie: widget.movie,
+    );
+
+    pushPage(page, NavAnimation.bottomToTop);
   }
 }

@@ -16,6 +16,8 @@ class DefaultPageWidget<CubitState> extends StatelessWidget {
     this.centerAppBarTitle = false,
     this.showGradientBackground = false,
     this.actions,
+    this.listener,
+    this.listenerChild,
   });
 
   factory DefaultPageWidget.home({
@@ -46,6 +48,8 @@ class DefaultPageWidget<CubitState> extends StatelessWidget {
   final bool centerAppBarTitle;
   final Cubit<CubitState> bloc;
   final Widget Function(BuildContext, CubitState) builder;
+  final Widget? listenerChild;
+  final void Function(BuildContext, CubitState)? listener;
   final bool showGradientBackground;
   final List<Widget>? actions;
 
@@ -57,6 +61,12 @@ class DefaultPageWidget<CubitState> extends StatelessWidget {
       builder: builder,
       bloc: bloc,
     );
+    final blocListener = BlocListener<Cubit<CubitState>, CubitState>(
+      bloc: bloc,
+      listener: listener ?? (_, __) {},
+      child: listener != null ? listenerChild! : const SizedBox.shrink(),
+    );
+    final body = listener != null ? blocListener : blocBuilder;
 
     final colors = Theme.of(context).colorScheme;
     final gradientBackground = Container(
@@ -70,8 +80,9 @@ class DefaultPageWidget<CubitState> extends StatelessWidget {
           ],
         ),
       ),
-      child: blocBuilder,
+      child: body,
     );
+
 
     final scaffold = Scaffold(
       appBar: CustomAppBar(
@@ -82,7 +93,7 @@ class DefaultPageWidget<CubitState> extends StatelessWidget {
         actions: actions,
       ),
       extendBodyBehindAppBar: extendBodyBehindAppBar,
-      body: showGradientBackground ? gradientBackground : blocBuilder,
+      body: showGradientBackground ? gradientBackground : body,
     );
 
     if (!useSafeArea) return scaffold;

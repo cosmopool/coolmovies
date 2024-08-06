@@ -5,28 +5,51 @@ import "../../core/error.dart";
 import "../../domain/movie.dart";
 import "../../domain/review.dart";
 import "../../repository/review_repository.dart";
-import "state_status.dart";
+
+enum ReviewStatus { initial, loading, loaded, creating, created, error }
 
 class ReviewCubit extends Cubit<ReviewState> {
   ReviewCubit(super.initialState, this._repo);
   ReviewCubit.init(this._repo)
-      : super(ReviewState(status: StateStatus.initial));
+      : super(ReviewState(status: ReviewStatus.initial));
 
   final ReviewRepository _repo;
+
+  void _emitError(Failure failure) =>
+      emit(state.copyWith(status: ReviewStatus.error, error: failure));
 
   Future<void> fetchAllByMovie(Movie movie) async {
     if (isClosed) return;
 
-    emit(state.copyWith(status: StateStatus.loading));
+    emit(state.copyWith(status: ReviewStatus.loading));
     try {
       final reviews = await _repo.fetchAllByMovie(movie);
-      emit(state.copyWith(status: StateStatus.loaded, reviews: reviews));
+      reviews.sort((a, b) => b.rating.compareTo(a.rating));
+      emit(state.copyWith(status: ReviewStatus.loaded, reviews: reviews));
     } catch (e, st) {
       final failure = Failure(e, st);
       if (kDebugMode) debugPrint(failure.toString());
-      emit(state.copyWith(status: StateStatus.error, error: failure));
+      _emitError(failure);
     }
   }
+
+  Future<void> create(Review review) async {
+    if (isClosed) return;
+
+    emit(state.copyWith(status: ReviewStatus.creating));
+    try {
+      await _repo.createReview(review);
+      final reviews = [...state.reviews];
+      reviews.add(review);
+      emit(state.copyWith(status: ReviewStatus.created, reviews: reviews));
+    } catch (e, st) {
+      final failure = Failure(e, st);
+      if (kDebugMode) debugPrint(failure.toString());
+      _emitError(failure);
+    }
+  }
+
+  void disposeScreen() => emit(state.copyWith(status: ReviewStatus.loaded));
 }
 
 class ReviewState {
@@ -36,12 +59,12 @@ class ReviewState {
     this.error,
   });
 
-  final StateStatus status;
+  final ReviewStatus status;
   final List<Review> reviews;
   final Failure? error;
 
   ReviewState copyWith({
-    StateStatus? status,
+    ReviewStatus? status,
     List<Review>? reviews,
     Failure? error,
   }) {
